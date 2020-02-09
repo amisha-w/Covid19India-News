@@ -3,11 +3,10 @@ from django.shortcuts import render
 from newsapi.newsapi_client import NewsApiClient 
 
 # Create your views here. 
-def index(request): 
-	
+def index(request,coun='in'): 
 	newsapi = NewsApiClient(api_key ='950064c202904c90b89cb52b2c859a98') 
-	top = newsapi.get_top_headlines() 
-	sources = newsapi.get_sources()
+	top = newsapi.get_top_headlines(country=coun) 
+	# sources = newsapi.get_sources()
 	print('\n\n\n',top)
 
 	l = top['articles'] 
@@ -26,5 +25,5 @@ def index(request):
 		img.append(f['urlToImage']) 
 	mylist = zip(news, desc, img, url) 
 
-	return render(request, 'newsapp/index.html', context ={"mylist":mylist}) 
+	return render(request, 'newsapp/index.html', context ={"mylist":mylist, "coun":coun}) 
 
