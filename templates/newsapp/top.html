@@ -196,7 +196,7 @@
 		</g>
 		</svg>
 		&nbsp;Home</a>
-		<button id="trendingBtn" class="opt active"><svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+		<button id="trendingBtn" class="opt "><svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 			viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
 	   <g>
 		   <g>
@@ -243,7 +243,7 @@
 	   <g>
 	   </g>
 	   </svg>&nbsp;Trending</button>
-	   <select id="conselec" class="opt active">
+	   <select id="conselec" style="display: none;" class="opt active">
 		   <option value="/index/in/">India</option>
 		   <option value="/index/us/">USA</option>
 		   <option value="/index/cn/">China</option>
@@ -252,7 +252,7 @@
 		   <option value="/index/sa/">Arabia</option>
 	   </select >
 	   <script>
-		   document.getElementById('conselec').value = "/index/{{ coun }}/";
+		   
 
 		$(function(){
 		  // bind change event to select
@@ -311,7 +311,7 @@
 		  <a href="#">USA</a>
 		</div>
 	  </div> -->
-	   <button id="topBtn"  class="opt "><svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	   <button id="topBtn"  class="opt active"><svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 		viewBox="0 0 60 60" style="enable-background:new 0 0 60 60;" xml:space="preserve">
    <path d="M59,51.5h-1v-37H46v37h-3v-45H31v45h-3v-14H16v14h-3v-23H1v23c-0.552,0-1,0.447-1,1s0.448,1,1,1h12h3h12h3h12h3h12h1
 	   c0.552,0,1-0.447,1-1S59.552,51.5,59,51.5z"/>
@@ -347,24 +347,33 @@
    </g>
    </svg>
    &nbsp;Top</button>
-   <select id="time" style="display: none;" class="opt">
-	<option value="1">Today</option>
-	<option value="2">This Week</option>
-	<option value="3">This Month</option>
-	<option value="4">This Year</option>
+   <select id="time" class="opt active">
+	<option value="/top/1/">Today</option>
+	<option value="/top/2/">This Week</option>
+	<option value="/top/3/">This Month</option>
+	<!-- <option value="/top/4/">This Year</option> -->
 </select>
 <script>
-	$("#topBtn").click(function(){
-		var url = "/top/1/"; 
-	   if (url) { 
-		   window.location = url; 
-	   }
-	   return false;
-  $("#time").addClass("active");
-  $("#topBtn").addClass("active");
+    $('#time').on('change', function () {
+			  var url2 = $(this).val();
+            //   alert(url2) 
+			  if (url2) { 
+				  window.location = url2; 
+			  }
+			  return false;
+		  });
+    document.getElementById('time').value = "/top/{{ timeopt }}/";
+// 	$("#topBtn").click(function(){
+// 		var url = "/top/1/"; 
+// 	   if (url) { 
+// 		   window.location = url; 
+// 	   }
+// 	   return false;
+//   $("#time").addClass("active");
+//   $("#topBtn").addClass("active");
   
-  timeShow();
-});
+//   timeShow();
+// });
 $("#trendingBtn").click(function(){
 	var url = "/index/in/"; 
 	   if (url) { 
