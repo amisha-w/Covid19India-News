@@ -196,10 +196,10 @@
 	   <g>
 	   </g>
 	   </svg>&nbsp;Trending</button>
-	   <select id="conselec" onchange="neww()"  class="opt active">
+	   <select id="conselec" onchange="neww2()"  class="opt active">
 		   <option value="in">India</option>
 		   <option value="us">USA</option>
-		   <option value="cn">China</option>
+		   <!-- <option value="cn">China</option> -->
 		   <option value="fr">France</option>
 		   <option value="de">Germany</option>
 		   <option value="sa">Arabia</option>
@@ -272,6 +272,16 @@ function neww(){
 	   }
 	   return false;
 }
+function neww2(){
+	var x1 = document.getElementById('conselec').value;
+
+	// alert(x1+x2+x3)
+	var url = "/top/1/"+x1+"/"; 
+	   if (url) { 
+		   window.location = url; 
+	   }
+	   return false;
+}
 $("#trendingBtn").click(function(){
 	var url = "/index/in/"; 
 	   if (url) { 
@@ -323,9 +333,9 @@ $("#trendingBtn").click(function(){
 	{% endfor %} 
 	</div> 
 <script>
-	alert("{{coun}},{{sour}},{{timeopt}}")
+	// alert("{{coun}},{{sour}},{{timeopt}}")
 document.getElementById('conselec').value = "{{ coun }}";
-	// document.getElementById('src').value = "{{ sour }}";
+	document.getElementById('src').value = "{{ sour }}";
     document.getElementById('time').value = "{{ timeopt }}";
 </script>
 </body> 

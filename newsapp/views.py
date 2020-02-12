@@ -28,7 +28,7 @@ def index(request,coun='in'):
 
 	return render(request, 'newsapp/index.html', context ={"mylist":mylist, "coun":coun}) 
 
-def top(request,timey=1,coun='in',sour='google-news-in'): 
+def top(request,timey=1,coun='in',sour=None): 
 	newsapi = NewsApiClient(api_key ='950064c202904c90b89cb52b2c859a98') 
 	sources = newsapi.get_sources()['sources']
 	sids=[]
@@ -37,6 +37,8 @@ def top(request,timey=1,coun='in',sour='google-news-in'):
 		if(sources[i]['country']==coun):
 			sids.append(sources[i]['id'] )
 			sName.append(sources[i]['name'] )
+	if(sour==None):
+		sour=sids[0]
 	src=zip(sids,sName)
 	_ = datetime.datetime.now()
 	y=_.strftime("%Y-%m-%d")
@@ -59,7 +61,7 @@ def top(request,timey=1,coun='in',sour='google-news-in'):
 	# print('mn\n\n\n-------------------------------------',sources)
 	print("--------------------------",coun,sour,timey)
 	top = newsapi.get_everything(from_param=x,
-                                      to=y, q='bitcoin') 
+                                      to=y, sources=sour) 
 
 	l = top['articles'] 
 	desc =[] 
