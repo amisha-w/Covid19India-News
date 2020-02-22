@@ -15,16 +15,18 @@ def index(request,coun='in'):
 	news =[] 
 	url=[]
 	img =[] 
+	sw=[]
 
 	for i in range(len(l)): 
 		f = l[i] 
 		if(f['title']=="" or f['description']=="None"):
 			continue
 		news.append(f['title']) 
+		sw.append(f['source']['name'])
 		desc.append(f['description']) 
 		url.append(f['url'])
 		img.append(f['urlToImage']) 
-	mylist = zip(news, desc, img, url) 
+	mylist = zip(news, sw, desc, img, url) 
 
 	return render(request, 'newsapp/index.html', context ={"mylist":mylist, "coun":coun}) 
 
@@ -68,16 +70,18 @@ def top(request,timey=1,coun='in',sour=None):
 	news =[] 
 	url=[]
 	img =[] 
+	sw=[]
 
 	for i in range(len(l)): 
 		f = l[i] 
 		if(f['title']=="" or f['description']=="None"):
 			continue
 		news.append(f['title']) 
+		sw.append(f['source']['name'])
 		desc.append(f['description']) 
 		url.append(f['url'])
 		img.append(f['urlToImage']) 
-	mylist = zip(news, desc, img, url) 
+	mylist = zip(news, sw, desc, img, url) 
 
 	return render(request, 'newsapp/top.html', context ={"mylist":mylist, "timeopt":timey, "sources":src, "sour":sour, "coun":coun}) 
 

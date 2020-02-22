@@ -411,13 +411,15 @@ $("#trendingBtn").click(function(){
 
 	<div class="container">
 		
-	{% for new, des, i, url in mylist %} 
+	{% for new, sw, des, i, url in mylist %} 
 	<div class="card">
+		{% if i != None %}
 		<img src="{{ i }}" class="card-img-top" alt="...">
+		{% endif %}
 		<div class="card-body">
 		  <h5 class="card-title">{{ new }}</h5>
 		  <p class="card-text">{{ des }}</p>
-		  <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p><hr>
+		  <p class="card-text"><small class="text-muted">{{ sw }}</small></p><hr>
 		  <a href="{{ url }}" class="card-link">Read article</a>
 		</div>
 	  </div>
