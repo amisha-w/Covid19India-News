@@ -23,14 +23,47 @@
         <!-- <a class="zc-ref" href="https://www.zingchart.com/">Powered by ZingChart</a> -->
     </div>
     <script>
-        var statewise = JSON.parse('{{ statewise|safe }}');
-        var states = new Array();
-        for (var i = 0; i < statewise.length; i++) {
-            var info = new Array();
-            info['active'] = statewise[i]['active'];
-            info['confirmed'] = statewise[i]['confirmed'];
-            states[statewise[i]['statecode']] = info;
+        var colorFunc = function(num) {
+            if (0 <= num && num < 1) {
+                return color[0];
+            } else if (1 <= num && num < 2) {
+                return color[1];
+            } else if (90 <= num && num < 100) {
+                return color[9];
+            } else if (2 <= num && num < 4) {
+                return color[2];
+            } else if (4 <= num && num < 10) {
+                return color[3];
+            } else if (10 <= num && num < 20) {
+                return color[4];
+            } else if (20 <= num && num < 30) {
+                return color[5];
+            } else if (30 <= num && num < 40) {
+                return color[6];
+            } else if (40 <= num && num < 60) {
+                return color[7];
+            } else if (60 <= num && num < 90) {
+                return color[8];
+            }
         }
+        var statewise = JSON.parse(`{{ statewise|safe }}`);
+        var states = new Array();
+        var total;
+        var color = ['#FBE3E3', '#FFBABA', '#FEA8A8', '#FE8E8E', '#FE0000', '#D40000', '#AB0000', '#760101', '#760101', '#760101']
+        for (var i = 0; i < statewise.length; i++) {
+            if (code = "TT") {
+                total = statewise[i]['confirmed'];
+                // alert(total);
+                break;
+            }
+        }
+        for (var i = 0; i < statewise.length; i++) {
+            var code = statewise[i]['statecode'];
+            var k = 100 * (parseInt(statewise[i]['confirmed']) / parseInt(total));
+            statewise[i]['shade'] = colorFunc(k);
+            states[code] = statewise[i];
+        }
+
         ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "b55b025e438fa8a98e32482b5f768ff5"];
         let chartConfig = {
             shapes: [{
@@ -78,46 +111,543 @@
                             alpha: .28
                         },
                         items: {
+                            AP: {
+                                tooltip: {
+                                    text: states['AP']['state'] + "\nactive: " + states['AP']['active'] + " cases\nconfirmed: " +
+                                        states['AP']['confirmed'] + " cases (+" + states['AP']['deltaconfirmed'] + ")" +
+                                        "\ndeaths: " + states['AP']['deaths'] + " cases (+" + states['AP']['deltadeaths'] + ")" +
+                                        "\nrecovered: " + states['AP']['recovered'] + " cases (+" + states['AP']['deltarecovered'] + ")",
+                                    backgroundColor: states['AP']['shade']
+                                },
+                                backgroundColor: states['AP']['shade'],
+                                label: {
+                                    visible: true
+                                }
+                            },
+
+                            AR: {
+                                tooltip: {
+                                    text: states['AR']['state'] + "\nactive: " + states['AR']['active'] + " cases\nconfirmed: " +
+                                        states['AR']['confirmed'] + " cases (+" + states['AR']['deltaconfirmed'] + ")" +
+                                        "\ndeaths: " + states['AR']['deaths'] + " cases (+" + states['AR']['deltadeaths'] + ")" +
+                                        "\nrecovered: " + states['AR']['recovered'] + " cases (+" + states['AR']['deltarecovered'] + ")",
+                                    backgroundColor: states['AR']['shade']
+                                },
+                                backgroundColor: states['AR']['shade'],
+                                label: {
+                                    visible: true
+                                }
+                            },
+
+                            AS: {
+                                tooltip: {
+                                    text: states['AS']['state'] + "\nactive: " + states['AS']['active'] + " cases\nconfirmed: " +
+                                        states['AS']['confirmed'] + " cases (+" + states['AS']['deltaconfirmed'] + ")" +
+                                        "\ndeaths: " + states['AS']['deaths'] + " cases (+" + states['AS']['deltadeaths'] + ")" +
+                                        "\nrecovered: " + states['AS']['recovered'] + " cases (+" + states['AS']['deltarecovered'] + ")",
+                                    backgroundColor: states['AS']['shade']
+                                },
+                                backgroundColor: states['AS']['shade'],
+                                label: {
+                                    visible: true
+                                }
+                            },
+
                             KA: {
                                 tooltip: {
-                                    text: "" + states['KA']['active'] + " cases active.",
-                                    backgroundColor: '#ff5722'
+                                    text: states['KA']['state'] + "\nactive: " + states['KA']['active'] + " cases\nconfirmed: " +
+                                        states['KA']['confirmed'] + " cases (+" + states['KA']['deltaconfirmed'] + ")" +
+                                        "\ndeaths: " + states['KA']['deaths'] + " cases (+" + states['KA']['deltadeaths'] + ")" +
+                                        "\nrecovered: " + states['KA']['recovered'] + " cases (+" + states['KA']['deltarecovered'] + ")",
+                                    backgroundColor: states['KA']['shade']
                                 },
-                                backgroundColor: '#ff5722',
+                                backgroundColor: states['KA']['shade'],
                                 label: {
                                     visible: true
                                 }
                             },
+
+                            BR: {
+                                tooltip: {
+                                    text: states['BR']['state'] + "\nactive: " + states['BR']['active'] + " cases\nconfirmed: " +
+                                        states['BR']['confirmed'] + " cases (+" + states['BR']['deltaconfirmed'] + ")" +
+                                        "\ndeaths: " + states['BR']['deaths'] + " cases (+" + states['BR']['deltadeaths'] + ")" +
+                                        "\nrecovered: " + states['BR']['recovered'] + " cases (+" + states['BR']['deltarecovered'] + ")",
+                                    backgroundColor: states['BR']['shade']
+                                },
+                                backgroundColor: states['BR']['shade'],
+                                label: {
+                                    visible: true
+                                }
+                            },
+
+                            CT: {
+                                tooltip: {
+                                    text: states['CT']['state'] + "\nactive: " + states['CT']['active'] + " cases\nconfirmed: " +
+                                        states['CT']['confirmed'] + " cases (+" + states['CT']['deltaconfirmed'] + ")" +
+                                        "\ndeaths: " + states['CT']['deaths'] + " cases (+" + states['CT']['deltadeaths'] + ")" +
+                                        "\nrecovered: " + states['CT']['recovered'] + " cases (+" + states['CT']['deltarecovered'] + ")",
+                                    backgroundColor: states['CT']['shade']
+                                },
+                                backgroundColor: states['CT']['shade'],
+                                label: {
+                                    visible: true
+                                }
+                            },
+
+                            GA: {
+                                tooltip: {
+                                    text: states['GA']['state'] + "\nactive: " + states['GA']['active'] + " cases\nconfirmed: " +
+                                        states['GA']['confirmed'] + " cases (+" + states['GA']['deltaconfirmed'] + ")" +
+                                        "\ndeaths: " + states['GA']['deaths'] + " cases (+" + states['GA']['deltadeaths'] + ")" +
+                                        "\nrecovered: " + states['GA']['recovered'] + " cases (+" + states['GA']['deltarecovered'] + ")",
+                                    backgroundColor: states['GA']['shade']
+                                },
+                                backgroundColor: states['GA']['shade'],
+                                label: {
+                                    visible: true
+                                }
+                            },
+
+                            GJ: {
+                                tooltip: {
+                                    text: states['GJ']['state'] + "\nactive: " + states['GJ']['active'] + " cases\nconfirmed: " +
+                                        states['GJ']['confirmed'] + " cases (+" + states['GJ']['deltaconfirmed'] + ")" +
+                                        "\ndeaths: " + states['GJ']['deaths'] + " cases (+" + states['GJ']['deltadeaths'] + ")" +
+                                        "\nrecovered: " + states['GJ']['recovered'] + " cases (+" + states['GJ']['deltarecovered'] + ")",
+                                    backgroundColor: states['GJ']['shade']
+                                },
+                                backgroundColor: states['GJ']['shade'],
+                                label: {
+                                    visible: true
+                                }
+                            },
+
+                            HR: {
+                                tooltip: {
+                                    text: states['HR']['state'] + "\nactive: " + states['HR']['active'] + " cases\nconfirmed: " +
+                                        states['HR']['confirmed'] + " cases (+" + states['HR']['deltaconfirmed'] + ")" +
+                                        "\ndeaths: " + states['HR']['deaths'] + " cases (+" + states['HR']['deltadeaths'] + ")" +
+                                        "\nrecovered: " + states['HR']['recovered'] + " cases (+" + states['HR']['deltarecovered'] + ")",
+                                    backgroundColor: states['HR']['shade']
+                                },
+                                backgroundColor: states['HR']['shade'],
+                                label: {
+                                    visible: true
+                                }
+                            },
+
+                            HP: {
+                                tooltip: {
+                                    text: states['HP']['state'] + "\nactive: " + states['HP']['active'] + " cases\nconfirmed: " +
+                                        states['HP']['confirmed'] + " cases (+" + states['HP']['deltaconfirmed'] + ")" +
+                                        "\ndeaths: " + states['HP']['deaths'] + " cases (+" + states['HP']['deltadeaths'] + ")" +
+                                        "\nrecovered: " + states['HP']['recovered'] + " cases (+" + states['HP']['deltarecovered'] + ")",
+                                    backgroundColor: states['HP']['shade']
+                                },
+                                backgroundColor: states['HP']['shade'],
+                                label: {
+                                    visible: true
+                                }
+                            },
+
+                            JH: {
+                                tooltip: {
+                                    text: states['JH']['state'] + "\nactive: " + states['JH']['active'] + " cases\nconfirmed: " +
+                                        states['JH']['confirmed'] + " cases (+" + states['JH']['deltaconfirmed'] + ")" +
+                                        "\ndeaths: " + states['JH']['deaths'] + " cases (+" + states['JH']['deltadeaths'] + ")" +
+                                        "\nrecovered: " + states['JH']['recovered'] + " cases (+" + states['JH']['deltarecovered'] + ")",
+                                    backgroundColor: states['JH']['shade']
+                                },
+                                backgroundColor: states['JH']['shade'],
+                                label: {
+                                    visible: true
+                                }
+                            },
+
+                            KL: {
+                                tooltip: {
+                                    text: states['KL']['state'] + "\nactive: " + states['KL']['active'] + " cases\nconfirmed: " +
+                                        states['KL']['confirmed'] + " cases (+" + states['KL']['deltaconfirmed'] + ")" +
+                                        "\ndeaths: " + states['KL']['deaths'] + " cases (+" + states['KL']['deltadeaths'] + ")" +
+                                        "\nrecovered: " + states['KL']['recovered'] + " cases (+" + states['KL']['deltarecovered'] + ")",
+                                    backgroundColor: states['KL']['shade']
+                                },
+                                backgroundColor: states['KL']['shade'],
+                                label: {
+                                    visible: true
+                                }
+                            },
+
+                            MP: {
+                                tooltip: {
+                                    text: states['MP']['state'] + "\nactive: " + states['MP']['active'] + " cases\nconfirmed: " +
+                                        states['MP']['confirmed'] + " cases (+" + states['MP']['deltaconfirmed'] + ")" +
+                                        "\ndeaths: " + states['MP']['deaths'] + " cases (+" + states['MP']['deltadeaths'] + ")" +
+                                        "\nrecovered: " + states['MP']['recovered'] + " cases (+" + states['MP']['deltarecovered'] + ")",
+                                    backgroundColor: states['MP']['shade']
+                                },
+                                backgroundColor: states['MP']['shade'],
+                                label: {
+                                    visible: true
+                                }
+                            },
+
                             MH: {
                                 tooltip: {
-                                    text: 'Maharashtra has 2,683 monthly users total',
-                                    backgroundColor: '#ff9800'
+                                    text: states['MH']['state'] + "\nactive: " + states['MH']['active'] + " cases\nconfirmed: " +
+                                        states['MH']['confirmed'] + " cases (+" + states['MH']['deltaconfirmed'] + ")" +
+                                        "\ndeaths: " + states['MH']['deaths'] + " cases (+" + states['MH']['deltadeaths'] + ")" +
+                                        "\nrecovered: " + states['MH']['recovered'] + " cases (+" + states['MH']['deltarecovered'] + ")",
+                                    'font-color': "#fff",
+                                    backgroundColor: states['MH']['shade']
                                 },
-                                backgroundColor: '#ff9800',
+                                backgroundColor: states['MH']['shade'],
                                 label: {
                                     visible: true
                                 }
                             },
-                            TL: {
+
+                            MN: {
                                 tooltip: {
-                                    text: 'Telangana has 1,494 monthly users total',
-                                    backgroundColor: '#00AE4D'
+                                    text: states['MN']['state'] + "\nactive: " + states['MN']['active'] + " cases\nconfirmed: " +
+                                        states['MN']['confirmed'] + " cases (+" + states['MN']['deltaconfirmed'] + ")" +
+                                        "\ndeaths: " + states['MN']['deaths'] + " cases (+" + states['MN']['deltadeaths'] + ")" +
+                                        "\nrecovered: " + states['MN']['recovered'] + " cases (+" + states['MN']['deltarecovered'] + ")",
+                                    backgroundColor: states['MN']['shade']
                                 },
-                                backgroundColor: '#00AE4D',
+                                backgroundColor: states['MN']['shade'],
                                 label: {
                                     visible: true
                                 }
                             },
+
+                            ML: {
+                                tooltip: {
+                                    text: states['ML']['state'] + "\nactive: " + states['ML']['active'] + " cases\nconfirmed: " +
+                                        states['ML']['confirmed'] + " cases (+" + states['ML']['deltaconfirmed'] + ")" +
+                                        "\ndeaths: " + states['ML']['deaths'] + " cases (+" + states['ML']['deltadeaths'] + ")" +
+                                        "\nrecovered: " + states['ML']['recovered'] + " cases (+" + states['ML']['deltarecovered'] + ")",
+                                    backgroundColor: states['ML']['shade']
+                                },
+                                backgroundColor: states['ML']['shade'],
+                                label: {
+                                    visible: true
+                                }
+                            },
+
+                            MZ: {
+                                tooltip: {
+                                    text: states['MZ']['state'] + "\nactive: " + states['MZ']['active'] + " cases\nconfirmed: " +
+                                        states['MZ']['confirmed'] + " cases (+" + states['MZ']['deltaconfirmed'] + ")" +
+                                        "\ndeaths: " + states['MZ']['deaths'] + " cases (+" + states['MZ']['deltadeaths'] + ")" +
+                                        "\nrecovered: " + states['MZ']['recovered'] + " cases (+" + states['MZ']['deltarecovered'] + ")",
+                                    backgroundColor: states['MZ']['shade']
+                                },
+                                backgroundColor: states['MZ']['shade'],
+                                label: {
+                                    visible: true
+                                }
+                            },
+
+                            NL: {
+                                tooltip: {
+                                    text: states['NL']['state'] + "\nactive: " + states['NL']['active'] + " cases\nconfirmed: " +
+                                        states['NL']['confirmed'] + " cases (+" + states['NL']['deltaconfirmed'] + ")" +
+                                        "\ndeaths: " + states['NL']['deaths'] + " cases (+" + states['NL']['deltadeaths'] + ")" +
+                                        "\nrecovered: " + states['NL']['recovered'] + " cases (+" + states['NL']['deltarecovered'] + ")",
+                                    backgroundColor: states['NL']['shade']
+                                },
+                                backgroundColor: states['NL']['shade'],
+                                label: {
+                                    visible: true
+                                }
+                            },
+
+                            OR: {
+                                tooltip: {
+                                    text: states['OR']['state'] + "\nactive: " + states['OR']['active'] + " cases\nconfirmed: " +
+                                        states['OR']['confirmed'] + " cases (+" + states['OR']['deltaconfirmed'] + ")" +
+                                        "\ndeaths: " + states['OR']['deaths'] + " cases (+" + states['OR']['deltadeaths'] + ")" +
+                                        "\nrecovered: " + states['OR']['recovered'] + " cases (+" + states['OR']['deltarecovered'] + ")",
+                                    backgroundColor: states['OR']['shade']
+                                },
+                                backgroundColor: states['OR']['shade'],
+                                label: {
+                                    visible: true
+                                }
+                            },
+
+                            PB: {
+                                tooltip: {
+                                    text: states['PB']['state'] + "\nactive: " + states['PB']['active'] + " cases\nconfirmed: " +
+                                        states['PB']['confirmed'] + " cases (+" + states['PB']['deltaconfirmed'] + ")" +
+                                        "\ndeaths: " + states['PB']['deaths'] + " cases (+" + states['PB']['deltadeaths'] + ")" +
+                                        "\nrecovered: " + states['PB']['recovered'] + " cases (+" + states['PB']['deltarecovered'] + ")",
+                                    backgroundColor: states['PB']['shade']
+                                },
+                                backgroundColor: states['PB']['shade'],
+                                label: {
+                                    visible: true
+                                }
+                            },
+
+                            RJ: {
+                                tooltip: {
+                                    text: states['RJ']['state'] + "\nactive: " + states['RJ']['active'] + " cases\nconfirmed: " +
+                                        states['RJ']['confirmed'] + " cases (+" + states['RJ']['deltaconfirmed'] + ")" +
+                                        "\ndeaths: " + states['RJ']['deaths'] + " cases (+" + states['RJ']['deltadeaths'] + ")" +
+                                        "\nrecovered: " + states['RJ']['recovered'] + " cases (+" + states['RJ']['deltarecovered'] + ")",
+                                    backgroundColor: states['RJ']['shade']
+                                },
+                                backgroundColor: states['RJ']['shade'],
+                                label: {
+                                    visible: true
+                                }
+                            },
+
+                            SK: {
+                                tooltip: {
+                                    text: states['SK']['state'] + "\nactive: " + states['SK']['active'] + " cases\nconfirmed: " +
+                                        states['SK']['confirmed'] + " cases (+" + states['SK']['deltaconfirmed'] + ")" +
+                                        "\ndeaths: " + states['SK']['deaths'] + " cases (+" + states['SK']['deltadeaths'] + ")" +
+                                        "\nrecovered: " + states['SK']['recovered'] + " cases (+" + states['SK']['deltarecovered'] + ")",
+                                    backgroundColor: states['SK']['shade']
+                                },
+                                backgroundColor: states['SK']['shade'],
+                                label: {
+                                    visible: true
+                                }
+                            },
+
                             TN: {
                                 tooltip: {
-                                    text: 'Tamil Nadu has 1,968 monthly users total',
-                                    backgroundColor: '#00bcd4'
+                                    text: states['TN']['state'] + "\nactive: " + states['TN']['active'] + " cases\nconfirmed: " +
+                                        states['TN']['confirmed'] + " cases (+" + states['TN']['deltaconfirmed'] + ")" +
+                                        "\ndeaths: " + states['TN']['deaths'] + " cases (+" + states['TN']['deltadeaths'] + ")" +
+                                        "\nrecovered: " + states['TN']['recovered'] + " cases (+" + states['TN']['deltarecovered'] + ")",
+                                    backgroundColor: states['TN']['shade']
                                 },
-                                backgroundColor: '#00bcd4',
+                                backgroundColor: states['TN']['shade'],
+                                label: {
+                                    visible: true
+                                }
+                            },
+
+                            TL: {
+                                tooltip: {
+                                    text: states['TG']['state'] + "\nactive: " + states['TG']['active'] + " cases\nconfirmed: " +
+                                        states['TG']['confirmed'] + " cases (+" + states['TG']['deltaconfirmed'] + ")" +
+                                        "\ndeaths: " + states['TG']['deaths'] + " cases (+" + states['TG']['deltadeaths'] + ")" +
+                                        "\nrecovered: " + states['TG']['recovered'] + " cases (+" + states['TG']['deltarecovered'] + ")",
+                                    backgroundColor: states['TG']['shade']
+                                },
+                                backgroundColor: states['TG']['shade'],
+                                label: {
+                                    visible: true
+                                }
+                            },
+
+                            TR: {
+                                tooltip: {
+                                    text: states['TR']['state'] + "\nactive: " + states['TR']['active'] + " cases\nconfirmed: " +
+                                        states['TR']['confirmed'] + " cases (+" + states['TR']['deltaconfirmed'] + ")" +
+                                        "\ndeaths: " + states['TR']['deaths'] + " cases (+" + states['TR']['deltadeaths'] + ")" +
+                                        "\nrecovered: " + states['TR']['recovered'] + " cases (+" + states['TR']['deltarecovered'] + ")",
+                                    backgroundColor: states['TR']['shade']
+                                },
+                                backgroundColor: states['TR']['shade'],
+                                label: {
+                                    visible: true
+                                }
+                            },
+
+                            UP: {
+                                tooltip: {
+                                    text: states['UP']['state'] + "\nactive: " + states['UP']['active'] + " cases\nconfirmed: " +
+                                        states['UP']['confirmed'] + " cases (+" + states['UP']['deltaconfirmed'] + ")" +
+                                        "\ndeaths: " + states['UP']['deaths'] + " cases (+" + states['UP']['deltadeaths'] + ")" +
+                                        "\nrecovered: " + states['UP']['recovered'] + " cases (+" + states['UP']['deltarecovered'] + ")",
+                                    backgroundColor: states['UP']['shade']
+                                },
+                                backgroundColor: states['UP']['shade'],
+                                label: {
+                                    visible: true
+                                }
+                            },
+
+                            UT: {
+                                tooltip: {
+                                    text: states['UT']['state'] + "\nactive: " + states['UT']['active'] + " cases\nconfirmed: " +
+                                        states['UT']['confirmed'] + " cases (+" + states['UT']['deltaconfirmed'] + ")" +
+                                        "\ndeaths: " + states['UT']['deaths'] + " cases (+" + states['UT']['deltadeaths'] + ")" +
+                                        "\nrecovered: " + states['UT']['recovered'] + " cases (+" + states['UT']['deltarecovered'] + ")",
+                                    backgroundColor: states['UT']['shade']
+                                },
+                                backgroundColor: states['UT']['shade'],
+                                label: {
+                                    visible: true
+                                }
+                            },
+
+                            WB: {
+                                tooltip: {
+                                    text: states['WB']['state'] + "\nactive: " + states['WB']['active'] + " cases\nconfirmed: " +
+                                        states['WB']['confirmed'] + " cases (+" + states['WB']['deltaconfirmed'] + ")" +
+                                        "\ndeaths: " + states['WB']['deaths'] + " cases (+" + states['WB']['deltadeaths'] + ")" +
+                                        "\nrecovered: " + states['WB']['recovered'] + " cases (+" + states['WB']['deltarecovered'] + ")",
+                                    backgroundColor: states['WB']['shade']
+                                },
+                                backgroundColor: states['WB']['shade'],
+                                label: {
+                                    visible: true
+                                }
+                            },
+
+
+                            JK: {
+                                tooltip: {
+                                    text: states['JK']['state'] + "\nactive: " + states['JK']['active'] + " cases\nconfirmed: " +
+                                        states['JK']['confirmed'] + " cases (+" + states['JK']['deltaconfirmed'] + ")" +
+                                        "\ndeaths: " + states['JK']['deaths'] + " cases (+" + states['JK']['deltadeaths'] + ")" +
+                                        "\nrecovered: " + states['JK']['recovered'] + " cases (+" + states['JK']['deltarecovered'] + ")",
+                                    backgroundColor: states['JK']['shade']
+                                },
+                                backgroundColor: states['JK']['shade'],
+                                label: {
+                                    visible: true
+                                }
+                            },
+
+                            AN: {
+                                tooltip: {
+                                    text: states['AN']['state'] + "\nactive: " + states['AN']['active'] + " cases\nconfirmed: " +
+                                        states['AN']['confirmed'] + " cases (+" + states['AN']['deltaconfirmed'] + ")" +
+                                        "\ndeaths: " + states['AN']['deaths'] + " cases (+" + states['AN']['deltadeaths'] + ")" +
+                                        "\nrecovered: " + states['AN']['recovered'] + " cases (+" + states['AN']['deltarecovered'] + ")",
+                                    backgroundColor: states['AN']['shade']
+                                },
+                                backgroundColor: states['AN']['shade'],
+                                label: {
+                                    visible: true
+                                }
+                            },
+
+                            CH: {
+                                tooltip: {
+                                    text: states['CH']['state'] + "\nactive: " + states['CH']['active'] + " cases\nconfirmed: " +
+                                        states['CH']['confirmed'] + " cases (+" + states['CH']['deltaconfirmed'] + ")" +
+                                        "\ndeaths: " + states['CH']['deaths'] + " cases (+" + states['CH']['deltadeaths'] + ")" +
+                                        "\nrecovered: " + states['CH']['recovered'] + " cases (+" + states['CH']['deltarecovered'] + ")",
+                                    backgroundColor: states['CH']['shade']
+                                },
+                                backgroundColor: states['CH']['shade'],
+                                label: {
+                                    visible: true
+                                }
+                            },
+
+                            DD: {
+                                tooltip: {
+                                    text: states['DD']['state'] + "\nactive: " + states['DD']['active'] + " cases\nconfirmed: " +
+                                        states['DD']['confirmed'] + " cases (+" + states['DD']['deltaconfirmed'] + ")" +
+                                        "\ndeaths: " + states['DD']['deaths'] + " cases (+" + states['DD']['deltadeaths'] + ")" +
+                                        "\nrecovered: " + states['DD']['recovered'] + " cases (+" + states['DD']['deltarecovered'] + ")",
+                                    backgroundColor: states['DD']['shade']
+                                },
+                                backgroundColor: states['DD']['shade'],
+                                label: {
+                                    visible: true
+                                }
+                            },
+
+                            DL: {
+                                tooltip: {
+                                    text: states['DL']['state'] + "\nactive: " + states['DL']['active'] + " cases\nconfirmed: " +
+                                        states['DL']['confirmed'] + " cases (+" + states['DL']['deltaconfirmed'] + ")" +
+                                        "\ndeaths: " + states['DL']['deaths'] + " cases (+" + states['DL']['deltadeaths'] + ")" +
+                                        "\nrecovered: " + states['DL']['recovered'] + " cases (+" + states['DL']['deltarecovered'] + ")",
+                                    backgroundColor: states['DL']['shade']
+                                },
+                                backgroundColor: states['DL']['shade'],
+                                label: {
+                                    visible: true
+                                }
+                            },
+
+                            LA: {
+                                tooltip: {
+                                    text: states['LA']['state'] + "\nactive: " + states['LA']['active'] + " cases\nconfirmed: " +
+                                        states['LA']['confirmed'] + " cases (+" + states['LA']['deltaconfirmed'] + ")" +
+                                        "\ndeaths: " + states['LA']['deaths'] + " cases (+" + states['LA']['deltadeaths'] + ")" +
+                                        "\nrecovered: " + states['LA']['recovered'] + " cases (+" + states['LA']['deltarecovered'] + ")",
+                                    backgroundColor: states['LA']['shade']
+                                },
+                                backgroundColor: states['LA']['shade'],
+                                label: {
+                                    visible: true
+                                }
+                            },
+
+                            LD: {
+                                tooltip: {
+                                    text: states['LD']['state'] + "\nactive: " + states['LD']['active'] + " cases\nconfirmed: " +
+                                        states['LD']['confirmed'] + " cases (+" + states['LD']['deltaconfirmed'] + ")" +
+                                        "\ndeaths: " + states['LD']['deaths'] + " cases (+" + states['LD']['deltadeaths'] + ")" +
+                                        "\nrecovered: " + states['LD']['recovered'] + " cases (+" + states['LD']['deltarecovered'] + ")",
+                                    backgroundColor: states['LD']['shade']
+                                },
+                                backgroundColor: states['LD']['shade'],
+                                label: {
+                                    visible: true
+                                }
+                            },
+
+                            PY: {
+                                tooltip: {
+                                    text: states['PY']['state'] + "\nactive: " + states['PY']['active'] + " cases\nconfirmed: " +
+                                        states['PY']['confirmed'] + " cases (+" + states['PY']['deltaconfirmed'] + ")" +
+                                        "\ndeaths: " + states['PY']['deaths'] + " cases (+" + states['PY']['deltadeaths'] + ")" +
+                                        "\nrecovered: " + states['PY']['recovered'] + " cases (+" + states['PY']['deltarecovered'] + ")",
+                                    backgroundColor: states['PY']['shade']
+                                },
+                                backgroundColor: states['PY']['shade'],
                                 label: {
                                     visible: true
                                 }
                             }
+
+
+                            // MH: {
+                            //     tooltip: {
+                            //         text: 'Maharashtra has 2,683 monthly users total',
+                            //         backgroundColor: '#ff9800'
+                            //     },
+                            //     backgroundColor: '#ff9800',
+                            //     label: {
+                            //         visible: true
+                            //     }
+                            // },
+                            // TL: {
+                            //     tooltip: {
+                            //         text: 'Telangana has 1,494 monthly users total',
+                            //         backgroundColor: '#00AE4D'
+                            //     },
+                            //     backgroundColor: '#00AE4D',
+                            //     label: {
+                            //         visible: true
+                            //     }
+                            // },
+                            // TN: {
+                            //     tooltip: {
+                            //         text: 'Tamil Nadu has 1,968 monthly users total',
+                            //         backgroundColor: '#00bcd4'
+                            //     },
+                            //     backgroundColor: '#00bcd4',
+                            //     label: {
+                            //         visible: true
+                            //     }
+                            // }
                         },
                         label: { // text displaying. Like valueBox
                             fontSize: '15px',
@@ -140,4 +670,3 @@
 </body>
 
 </html>
-Choropleth Map 154/271 Italy Map Routes Related Documentation: Maps Tooltips

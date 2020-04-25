@@ -40,8 +40,8 @@ def map(request):
 	x = requests.get('https://api.covid19india.org/data.json')
 	y = x.json()
 	# print((y['statewise']))
-	# for i in y['statewise']:
-	# 	print(i)
+	for i in y['statewise']:
+		print(i)
 	return render(request, 'newsapp/map.html', context={"statewise":json.dumps(y['statewise'])})
 
 def trend(request, tr):
