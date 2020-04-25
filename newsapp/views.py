@@ -4,6 +4,7 @@ from newsapi.newsapi_client import NewsApiClient
 import datetime 
 from bs4 import BeautifulSoup
 import requests
+import json
 
 
 # Create your views here. 
@@ -35,9 +36,17 @@ def index(request,coun='in'):
 
 	return render(request, 'newsapp/index.html', context ={"mylist":mylist, "coun":coun}) 
 
+def map(request):
+	x = requests.get('https://api.covid19india.org/data.json')
+	y = x.json()
+	# print((y['statewise']))
+	# for i in y['statewise']:
+	# 	print(i)
+	return render(request, 'newsapp/map.html', context={"statewise":json.dumps(y['statewise'])})
+
 def trend(request, tr):
 	site = 'https://news.google.com'
-	
+
 	source = requests.get('https://news.google.com/topics/CAAqBwgKMMqAmAsw9KmvAw').text
 	soup = BeautifulSoup(source, 'lxml')
 	head=[]
@@ -82,8 +91,7 @@ def trend(request, tr):
 			time.append(None)
 		iii+=1
 
-	print(iii)
-	print(err)
+
 	articles=zip(head,link,pic,src1,desc,time)
 
 	return render(request, 'newsapp/trend.html', context = { "articles" : articles, "tr" : tr }) 
