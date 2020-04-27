@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 import requests
 import json
 
-
+state_name_mapping = {}
 # Create your views here. 
 def index(request,coun='in'): 
 	newsapi = NewsApiClient(api_key ='950064c202904c90b89cb52b2c859a98') 
@@ -29,7 +29,8 @@ def index(request,coun='in'):
 		sw.append(f['source']['name'])
 		desc.append(f['description']) 
 		url.append(f['url'])
-		img.append(f['urlToImage']) 
+		img.append(f['urlToImage'])
+		print(f) 
 	mylist = zip(news, sw, desc, img, url) 
 
 
@@ -39,10 +40,46 @@ def index(request,coun='in'):
 def map(request):
 	x = requests.get('https://api.covid19india.org/data.json')
 	y = x.json()
-	# print((y['statewise']))
-	for i in y['statewise']:
-		print(i)
-	return render(request, 'newsapp/map.html', context={"statewise":json.dumps(y['statewise'])})
+	
+	a = y['statewise']
+
+	for state in a:
+		state_name_mapping[state['statecode'].lower()] = state['state']
+	print("state mapping: \n\n",state_name_mapping)
+
+	x = requests.get('https://api.covid19india.org/states_daily.json')
+	y = x.json()
+	confirmed={}
+	recovered={}
+	deceased={}
+	b =y['states_daily']
+	states=[]
+	for i in b:
+		if(i['status']=="Confirmed"):
+			for j in i:
+				# confirmed[j]=i[j]
+				if j!= "status" and j!="date":
+					states.append(j)
+		break
+	for state in states:
+		confirmed[state] = {'labels':[],'data':[]}	
+		recovered[state] = {'labels':[],'data':[]}		
+		deceased[state] = {'labels':[],'data':[]}		
+		for i in b:
+			if(i['status']=="Confirmed"):
+				confirmed[state]['labels'].append(i['date'])
+				confirmed[state]['data'].append(i[state])
+			elif(i['status']=="Recovered"):
+				recovered[state]['labels'].append(i['date'])
+				recovered[state]['data'].append(i[state])
+			elif(i['status']=="Deceased"):
+				deceased[state]['labels'].append(i["date"])
+				deceased[state]['data'].append(i[state])
+	# print(deceased)
+	del state_name_mapping['tt']
+
+	return render(request, 'newsapp/map.html', context={"statewise":json.dumps(a),"confirmed":json.dumps(confirmed),"recovered":json.dumps(recovered),"deceased":json.dumps(deceased),"codes":json.dumps(state_name_mapping), "code_map":state_name_mapping})
+
 
 def trend(request, tr):
 	site = 'https://news.google.com'
@@ -93,6 +130,8 @@ def trend(request, tr):
 
 
 	articles=zip(head,link,pic,src1,desc,time)
+
+	
 
 	return render(request, 'newsapp/trend.html', context = { "articles" : articles, "tr" : tr }) 
 

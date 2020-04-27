@@ -1,28 +1,189 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html> {% load static %}
+<html lang="en" dir="ltr">
 
 <head>
     <meta charset="utf-8">
     <title>Wisely</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
-    <style>
-        .chart--container {
-            min-height: 530px;
-            width: 100%;
-            height: 100%;
-        }
-        
-        .zc-ref {
-            display: none;
-        }
-    </style>
+
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">  -->
+    <!-- Optional theme -->
 </head>
+<script>
+</script>
+<style type="text/css">
+    body,
+    html {
+        background-color: #fff;
+        margin: 0px;
+        padding: 0px;
+    }
+    
+    .chart--container {
+        min-height: 530px;
+        width: 100%;
+        height: 100%;
+    }
+    
+    .zc-ref {
+        display: none;
+    }
+    
+    .navbar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 2;
+        border-bottom: 1px solid #DAE0E6;
+    }
+    
+    .container {
+        width: 100%;
+        /* left: 0;
+         */
+        margin-top: 80px;
+    }
+    
+    .options {
+        text-align: center;
+        margin-top: 55.6px;
+        width: 100%;
+        height: 65px;
+        padding: 10px;
+        background-color: white;
+    }
+    
+    .left {
+        float: left;
+    }
+    
+    .right {
+        float: right;
+        right: 0;
+        padding: 0 !important;
+    }
+    
+    .card {
+        margin: auto;
+        width: 800px;
+        border: 1px solid #CCCCCC;
+        margin-top: 20px;
+    }
+    
+    .article {
+        margin-bottom: 5px;
+        /* margin: 20px !important; */
+        padding: 20px;
+        height: 150px;
+        /* hei width: 100%; */
+    }
+    
+    img {
+        height: 100px;
+        width: 100px;
+        border-radius: 10px;
+    }
+    
+    .muted {
+        color: #A1A1A3;
+        font-size: 0.8em;
+    }
+    
+    .title {
+        color: black;
+        text-decoration: black;
+    }
+    
+    .spreadgraph {
+        text-align: center;
+    }
+    
+    canvas {
+        height: 500px !important;
+    }
+    /* .dropdown:hover .dropbtn {background-color: #3e8e41;} */
+</style>
 
 <body>
-    <div id="myChart" class="chart--container">
-        <!-- <a class="zc-ref" href="https://www.zingchart.com/">Powered by ZingChart</a> -->
+    <nav class="navbar navbar-expand navbar-light" style="background-color: #fff;">
+        <!-- Navbar content -->
+        <a class="navbar-brand">NewsApi</a>
+        <form class="form-inline">
+
+            <input class="form-control mr-sm-2" style="background-color: #F2F2F2;" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </nav>
+
+    <div class="container">
+
+        <div id="myChart" class="chart--container" style="margin-bottom: 30px;"></div>
+        <div class="spreadgraph">
+            <h2> Spread Trends</h2>
+            <br> <select id="state_select" style="font-size: 1.5em; text-align: center;" onchange="chartFunc()">
+                {% for key,value in code_map.items %}
+                <option value="{{ key }}">{{ value }}</option>
+                {% endfor %}
+
+                </select>
+            <br>
+            <br>
+            <div height="500px">
+                <canvas id="line-chart" width="800px" height="450px"></canvas>
+            </div>
+        </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
     <script>
+        var state_codes = JSON.parse(`{{ codes|safe }}`);
+        var confirmed = JSON.parse(`{{ confirmed|safe }}`);
+        var recovered = JSON.parse(`{{ recovered|safe }}`);
+        var deceased = JSON.parse(`{{ deceased|safe }}`);
+        $(document).ready(function() {
+            chartFunc();
+        });
+
+        var chartFunc = function() {
+            var state = document.getElementById("state_select").value;
+            var chart_line = new Chart(document.getElementById("line-chart"), {
+                type: 'line',
+                data: {
+                    labels: confirmed[state]['labels'],
+
+                    datasets: [{
+                        data: confirmed[state]['data'],
+                        label: "Confirmed",
+                        borderColor: "#f00",
+                        fill: false
+                    }, {
+                        data: recovered[state]['data'],
+                        label: "Recovered",
+                        borderColor: "#8e5ea2",
+                        fill: false
+                    }, {
+                        data: deceased[state]['data'],
+                        label: "Deceased",
+                        borderColor: "#000",
+                        fill: false
+                    }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: "Spread Trends for " + state_codes[state]
+                    },
+                    maintainAspectRatio: false,
+                    responsive: true
+                }
+            });
+            chart_line.height = "300";
+        }
+
         var colorFunc = function(num) {
             if (0 <= num && num < 1) {
                 return color[0];

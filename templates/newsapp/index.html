@@ -431,6 +431,7 @@
             height: 150px;
             position: relative;
             overflow: hidden;
+            border: none !important;
             transition: ease 0.8s all;
         }
         
@@ -438,30 +439,71 @@
             transform: scale(1.01);
         }
         
+        #map-card {
+            height: 150px;
+            position: relative;
+            overflow: hidden;
+            border: none !important;
+            transition: ease 0.8s all;
+        }
+        
+        #map-card .card-text,
+        #map-card .card-title {
+            background: rgba(0, 0, 0, 0.4);
+        }
+        
+        #trend-card .card-text,
+        #trend-card .card-title {
+            background: rgba(0, 0, 0, 0.4);
+        }
+        
+        #map-card:hover {
+            transform: scale(1.01);
+        }
+        
         img.absolute {
             position: absolute;
+        }
+        
+        .parent {
+            text-align: center;
+        }
+        
+        .parent a {
+            display: inline-flex;
         }
     </style>
     <script>
     </script>
-    <a style="text-decoration: none;" href="/trend/COVID-19/">
-        <div class="card bg-dark text-white " id="trend-card"><img class="card-img absolute" src="https://images.newscientist.com/wp-content/uploads/2020/02/11165812/c0481846-wuhan_novel_coronavirus_illustration-spl.jpg" alt="Card image">
-            <div class="card-img-overlay">
-                <h5 class="card-title">COVID-19</h5>
-                <p class="card-text">Stay aware of the latest information on the COVID-19 outbreak by reading updates available on this website and through your national and local public health authority. </p>
+    <div class="parent">
+        <a style="text-decoration: none;" href="/trend/COVID-19/">
+            <div class="card bg-dark text-white " id="trend-card"><img class="card-img absolute" src="https://images.newscientist.com/wp-content/uploads/2020/02/11165812/c0481846-wuhan_novel_coronavirus_illustration-spl.jpg" alt="Card image">
+                <div class="card-img-overlay">
+                    <h5 class="card-title">COVID-19 NEWS</h5>
+                    <p class="card-text">Stay aware of the latest information on the COVID-19 outbreak by reading updates available on this website and through your national and local public health authority. </p>
 
+                </div>
             </div>
-        </div>
-    </a>
+        </a>
+        <a style="text-decoration: none;" href="/map/">
+            <div class="card bg-dark text-white " id="map-card"><img class="card-img absolute" src="https://dlg7f0e93aole.cloudfront.net/wp-content/uploads/global-map-of-coronavirus-image-scaled-e1585312392797.jpg" alt="Card image">
+                <div class="card-img-overlay">
+                    <h5 class="card-title">COVID-19 MAP</h5>
+                    <p class="card-text">View an up-to-date map and statistics of the spread of Covid-19 with the most recently upated stats from reliable sources.</p>
+
+                </div>
+            </div>
+        </a>
+    </div>
 
 
     <div class="container">
 
-        {% for new, sw, des, i, url in mylist %}
+        {% for new, sw, des, img, url in mylist %}
 
-        <div class="card"> {% if i != None %}
+        <div class="card"> {% if img != None %}
 
-            <img src="{{ i }}" class="card-img-top" alt="..."> {% endif %}
+            <img src="{{ img }}" class="card-img-top" alt="..."> {% endif %}
 
             <div class="card-body">
                 <h5 class="card-title"> {{ new }}
