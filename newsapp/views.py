@@ -1,16 +1,19 @@
 # importing api 
-from django.shortcuts import render 
+from django.shortcuts import render, redirect
 from newsapi.newsapi_client import NewsApiClient
 import datetime 
 from bs4 import BeautifulSoup
 import requests
 import json
-
+newsapi = NewsApiClient(api_key ='950064c202904c90b89cb52b2c859a98')
 state_name_mapping = {}
 # Create your views here. 
-def index(request,coun='in'): 
-	newsapi = NewsApiClient(api_key ='950064c202904c90b89cb52b2c859a98') 
-	top = newsapi.get_top_headlines(country=coun) 
+def index(request,keyw=None, coun='in'): 
+	if(keyw==None):
+		top = newsapi.get_top_headlines(country=coun)
+	else:
+		top = newsapi.get_top_headlines(q=keyw,country=coun)
+	 
 	# sources = newsapi.get_sources()
 	# print('\n\n\n',top)
 	
@@ -30,12 +33,18 @@ def index(request,coun='in'):
 		desc.append(f['description']) 
 		url.append(f['url'])
 		img.append(f['urlToImage'])
-		print(f) 
+		# print(f) 
 	mylist = zip(news, sw, desc, img, url) 
 
+	return render(request, 'newsapp/index.html', context ={"mylist":mylist, "coun":coun, "key":keyw}) 
 
-
-	return render(request, 'newsapp/index.html', context ={"mylist":mylist, "coun":coun}) 
+def search(request):
+	if(request.method=="POST"):
+		keyword = request.POST['word']
+		return redirect(index, keyw=keyword, coun='in')
+	else:
+		print("no post")
+		return redirect(index, keyw="None",)
 
 def map(request):
 	x = requests.get('https://api.covid19india.org/data.json')
@@ -45,7 +54,7 @@ def map(request):
 
 	for state in a:
 		state_name_mapping[state['statecode'].lower()] = state['state']
-	print("state mapping: \n\n",state_name_mapping)
+	# print("state mapping: \n\n",state_name_mapping)
 
 	x = requests.get('https://api.covid19india.org/states_daily.json')
 	y = x.json()

@@ -159,8 +159,9 @@
     <nav class="navbar navbar-expand navbar-light" style="background-color: #fff;">
         <!-- Navbar content -->
         <a class="navbar-brand">NewsApi</a>
-        <form class="form-inline">
-            <input class="form-control mr-sm-2" style="background-color: #F2F2F2;" type="search" placeholder="Search" aria-label="Search">
+        <form class="form-inline" method="post" action="/search/">
+            {% csrf_token %}
+            <input class="form-control mr-sm-2" name="word" style="background-color: #F2F2F2;" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
         </form>
     </nav>
@@ -274,7 +275,7 @@
 		$(function(){
 		  // bind change event to select
 		  $('#conselec').on('change', function () {
-			  var url = $(this).val(); 
+			  var url = $(this).val()+"{{ key }}/"; 
 			  if (url) { 
 				  window.location = url; 
 			  }
@@ -475,6 +476,7 @@
     </style>
     <script>
     </script>
+    {% if key == None %}
     <div class="parent">
         <a style="text-decoration: none;" href="/trend/COVID-19/">
             <div class="card bg-dark text-white " id="trend-card"><img class="card-img absolute" src="https://images.newscientist.com/wp-content/uploads/2020/02/11165812/c0481846-wuhan_novel_coronavirus_illustration-spl.jpg" alt="Card image">
@@ -495,10 +497,11 @@
             </div>
         </a>
     </div>
+    {% else %}
 
-
+    <h2 style="text-align: center; background-color: white; margin-top: 10px; padding: 5px; width: 100%;">Topic : {{ key }}</h2>
+    {% endif %}
     <div class="container">
-
         {% for new, sw, des, img, url in mylist %}
 
         <div class="card"> {% if img != None %}

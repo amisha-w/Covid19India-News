@@ -19,6 +19,10 @@ from newsapp import views
 
 urlpatterns = [
     path('index/<coun>/',views.index, name='index'),
+    path('index/<coun>/<keyw>/',views.index, name='index'),
+    path('index/',views.index, name='index'),
+    path('index/<keyw>/',views.index, name='index'),
+    path('search/',views.search, name='search'),
     path('map/',views.map, name='map'),
     path('trend/<tr>/',views.trend, name='trend'),
     path('top/<timey>/',views.top, name='top'),
