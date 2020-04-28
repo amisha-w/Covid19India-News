@@ -9,7 +9,7 @@ newsapi = NewsApiClient(api_key ='950064c202904c90b89cb52b2c859a98')
 state_name_mapping = {}
 # Create your views here. 
 def index(request,keyw=None, coun='in'): 
-	if(keyw==None):
+	if(keyw==None or keyw=="None"):
 		top = newsapi.get_top_headlines(country=coun)
 	else:
 		top = newsapi.get_top_headlines(q=keyw,country=coun)
@@ -44,7 +44,7 @@ def search(request):
 		return redirect(index, keyw=keyword, coun='in')
 	else:
 		print("no post")
-		return redirect(index, keyw="None",)
+		return redirect(index, keyw=None)
 
 def map(request):
 	x = requests.get('https://api.covid19india.org/data.json')

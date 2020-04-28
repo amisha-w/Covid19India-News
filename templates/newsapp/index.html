@@ -458,7 +458,7 @@
     </style>
     <script>
     </script>
-    {% if key == None %}
+    {% if key == None or key == "None" %}
     <div class="parent">
         <a style="text-decoration: none;" href="/trend/COVID-19/">
             <div class="card bg-dark text-white " id="trend-card"><img class="card-img absolute" src="{% static '1.png' %}" alt="Card image">
@@ -497,7 +497,7 @@
 
         <div class="card"> {% if img != None %}
 
-            <img src="{{ img }}" class="card-img-top" alt="..."> {% endif %}
+            <img src="{{ img }}" class="card-img-top" alt=""> {% endif %}
 
             <div class="card-body">
                 <h5 class="card-title"> {{ new }}
