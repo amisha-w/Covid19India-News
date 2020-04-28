@@ -86,8 +86,10 @@ def map(request):
 				deceased[state]['data'].append(i[state])
 	# print(deceased)
 	del state_name_mapping['tt']
-
-	return render(request, 'newsapp/map.html', context={"statewise":json.dumps(a),"confirmed":json.dumps(confirmed),"recovered":json.dumps(recovered),"deceased":json.dumps(deceased),"codes":json.dumps(state_name_mapping), "code_map":state_name_mapping})
+	x_ = requests.get('https://api.covid19india.org/state_district_wise.json').json()
+	x_ = json.dumps(x_)
+	
+	return render(request, 'newsapp/map.html', context={"statewise":json.dumps(a),"confirmed":json.dumps(confirmed),"recovered":json.dumps(recovered),"deceased":json.dumps(deceased),"codes":json.dumps(state_name_mapping), "code_map":state_name_mapping, "table":x_})
 
 def help(request, c_id=None, s_id=None):
 	x = requests.get('https://api.covid19india.org/resources/resources.json').json()['resources']

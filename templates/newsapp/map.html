@@ -106,7 +106,12 @@
     canvas {
         height: 500px !important;
     }
-    /* .dropdown:hover .dropbtn {background-color: #3e8e41;} */
+    
+    .incr {
+        color: #f00;
+        font-size: 0.8em;
+        font-style: bold;
+    }
 </style>
 
 <body>
@@ -137,9 +142,22 @@
                 <canvas id="line-chart" width="800px" height="450px"></canvas>
             </div>
         </div>
+        <table id="districtTable" class="table table-hover">
+
+            <tr>
+                <th scope="col">District</th>
+                <th scope="col">Confirmed</th>
+                <th scope="col">Active</th>
+                <th scope="col">Diseased</th>
+                <th scope="col">Recovered</th>
+            </tr>
+
+
+        </table>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
     <script>
+        var table = JSON.parse(`{{ table|safe }}`);
         var state_codes = JSON.parse(`{{ codes|safe }}`);
         var confirmed = JSON.parse(`{{ confirmed|safe }}`);
         var recovered = JSON.parse(`{{ recovered|safe }}`);
@@ -148,7 +166,48 @@
             chartFunc();
         });
 
+        var tableFunc = function() {
+            var state = $("#state_select option:selected").text();
+            // alert(table[state]['districtData'])
+            document.getElementById('districtTable').innerHTML = "<tr>" +
+                "<th scope='col'>District</th>" +
+                "<th scope='col'>Confirmed</th>" +
+                "<th scope='col'>Active</th>" +
+                "<th scope='col'>Diseased</th>" +
+                "<th scope='col'>Recovered</th>" +
+                "</tr>";
+            for (var d in table[state]['districtData']) {
+                var district = d;
+                if (d == "Unknown")
+                    continue;
+                var a = table[state]['districtData'][d]['active'];
+                var c = table[state]['districtData'][d]['confirmed'];
+                var r = table[state]['districtData'][d]['recovered'];
+                var dd = table[state]['districtData'][d]['deceased'];
+                var deltaconfirmed = table[state]['districtData'][d]['delta']['confirmed'];
+                var deltarecovered = table[state]['districtData'][d]['delta']['recovered'];
+                var deltadeaths = table[state]['districtData'][d]['delta']['deceased'];
+                var s = "<tr>" +
+                    "<td>" + district + "</td>" + "<td>" + c;
+                if (deltaconfirmed > 0) {
+                    s += "<span class='incr'> +" + deltaconfirmed + "</span>";
+                }
+                s += "</td>" + "<td>" + a + "</td>" +
+                    "<td>" + dd;
+                if (deltadeaths > 0) {
+                    s += "<span class='incr'> +" + deltadeaths + "</span>";
+                }
+                s += "</td>" + "<td>" + r;
+                if (deltarecovered > 0) {
+                    s += "<span class='incr'> +" + deltarecovered + "</span>";
+                }
+                s += "</td>" + "</tr>";
+                document.getElementById('districtTable').innerHTML += s;
+            }
+        }
+
         var chartFunc = function() {
+            tableFunc();
             var state = document.getElementById("state_select").value;
             var chart_line = new Chart(document.getElementById("line-chart"), {
                 type: 'line',
