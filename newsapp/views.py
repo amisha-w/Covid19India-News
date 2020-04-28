@@ -89,6 +89,37 @@ def map(request):
 
 	return render(request, 'newsapp/map.html', context={"statewise":json.dumps(a),"confirmed":json.dumps(confirmed),"recovered":json.dumps(recovered),"deceased":json.dumps(deceased),"codes":json.dumps(state_name_mapping), "code_map":state_name_mapping})
 
+def help(request, c_id=None, s_id=None):
+	x = requests.get('https://api.covid19india.org/resources/resources.json').json()['resources']
+	states=['All States']
+	category=[]
+	for i in x:
+		if(i['state'] not in states):
+			states.append(i['state'])
+		if(i['category'] not in category):
+			category.append(i['category'])
+	ind = [i for i in range(0,len(category))]
+	ind2 = [i for i in range(0,len(states))]
+
+	cat = zip(ind,category)
+	s=zip(ind2,states)
+
+	if(c_id==None):
+		return render(request, 'newsapp/help.html', context={"category":cat})
+	else:
+		lis=[]
+		x = requests.get('https://api.covid19india.org/resources/resources.json').json()['resources']
+		for i in x:
+			if(s_id==None and i['category']==category[int(c_id)]  ):
+				lis.append(i)
+			elif(s_id!=None and int(s_id)==0 and i['category']==category[int(c_id)]  ):
+				lis.append(i)
+			elif(s_id!=None and i['state']==states[int(s_id)] and i['category']==category[int(c_id)]):
+				lis.append(i)
+		# print(len(lis))
+		if s_id==None:
+			s_id=0
+		return render(request, 'newsapp/helpCategory.html', context={"list":lis, "category":category[int(c_id)],"states":s, "c_id":c_id,"s_id":s_id})
 
 def trend(request, tr):
 	site = 'https://news.google.com'
