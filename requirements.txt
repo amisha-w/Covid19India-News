@@ -1,8 +1,5 @@
 absl-py==0.8.0
 alabaster==0.7.12
-anaconda-client==1.7.2
-anaconda-navigator==1.9.6
-anaconda-project==0.8.2
 argcomplete==1.8.2
 arrow==0.13.0
 asn1crypto==0.24.0
