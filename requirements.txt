@@ -1,0 +1,5 @@
+requests==2.21.0
+Django==2.1.5
+newsapi_python==0.2.6
+beautifulsoup4==4.9.0
+newsapi==0.1.1

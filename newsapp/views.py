@@ -5,9 +5,14 @@ import datetime
 from bs4 import BeautifulSoup
 import requests
 import json
-newsapi = NewsApiClient(api_key ='950064c202904c90b89cb52b2c859a98')
+import os
+from dotenv import load_dotenv
+
+
+NEWSAPI_KEY = os.getenv('NEWSAPI_KEY')
+newsapi = NewsApiClient(api_key = NEWSAPI_KEY)
 state_name_mapping = {}
-# Create your views here. 
+
 def index(request,keyw=None, coun='in'): 
 	if(keyw==None or keyw=="None"):
 		top = newsapi.get_top_headlines(country=coun)
@@ -15,7 +20,6 @@ def index(request,keyw=None, coun='in'):
 		top = newsapi.get_top_headlines(q=keyw,country=coun)
 	 
 	# sources = newsapi.get_sources()
-	# print('\n\n\n',top)
 	
 	l = top['articles'] 
 	desc =[] 
