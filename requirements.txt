@@ -1,5 +1,6 @@
 requests==2.21.0
-Django==2.1.5
 newsapi_python==0.2.6
+Django==2.1.5
 beautifulsoup4==4.9.0
 newsapi==0.1.1
+python-dotenv==0.13.0
