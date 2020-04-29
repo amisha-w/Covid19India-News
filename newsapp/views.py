@@ -55,7 +55,7 @@ def map(request):
 	y = x.json()
 	
 	a = y['statewise']
-
+	# print(a)
 	for state in a:
 		state_name_mapping[state['statecode'].lower()] = state['state']
 	# print("state mapping: \n\n",state_name_mapping)

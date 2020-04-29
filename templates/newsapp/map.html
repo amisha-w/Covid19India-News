@@ -100,10 +100,6 @@
         /* width: 100%; */
     }
     
-    canvas {
-        height: 500px !important;
-    }
-    
     .incr {
         color: #f00;
         font-size: 0.8em;
@@ -173,21 +169,29 @@
             <br>
             <br>
             <div height="500px">
-                <canvas id="line-chart" width="800px" height="450px"></canvas>
+                <canvas id="line-chart" style="height: 500px;" width="800px" height="450px"></canvas>
             </div>
         </div>
-        <table id="districtTable" class="table table-hover table-dark" style="width: 50%; margin:auto;">
 
-            <tr>
-                <th scope="col">District</th>
-                <th scope="col">Confirmed</th>
-                <th scope="col">Active</th>
-                <th scope="col">Deceased</th>
-                <th scope="col">Recovered</th>
-            </tr>
+        <canvas id="chartContainer1" style=" height: 300px; display: inline-block;"></canvas>
+        <canvas id="chartContainer2" style=" height: 300px; display: inline-block;"></canvas><br>
+        <canvas id="chartContainer3" style="height: 300px; display: inline-block;"></canvas>
+        <canvas id="chartContainer4" style="height: 300px; display: inline-block;"></canvas>
+        <div class="table-responsive">
+            <table id="districtTable" class="table table-hover table-dark " style="width: 100%;">
+
+                <tr>
+                    <th scope="col">District</th>
+                    <th scope="col">Confirmed</th>
+                    <th scope="col">Active</th>
+                    <th scope="col">Deceased</th>
+                    <th scope="col">Recovered</th>
+                </tr>
 
 
-        </table>
+            </table>
+        </div>
+
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
     <script>
@@ -230,10 +234,23 @@
                 "<th scope='col'>Deceased</th>" +
                 "<th scope='col'>Recovered</th>" +
                 "</tr>";
+            var dist = new Array();
+            var conf = new Array();
+            var act = new Array();
+            var rec = new Array();
+            var dec = new Array();
+
+
             for (var d in table[state]['districtData']) {
                 var district = d;
                 if (d == "Unknown")
                     continue;
+                dist.push(d);
+                act.push(table[state]['districtData'][d]['active']);
+                conf.push(table[state]['districtData'][d]['confirmed']);
+                rec.push(table[state]['districtData'][d]['recovered']);
+                dec.push(table[state]['districtData'][d]['deceased']);
+
                 var a = table[state]['districtData'][d]['active'];
                 var c = table[state]['districtData'][d]['confirmed'];
                 var r = table[state]['districtData'][d]['recovered'];
@@ -258,6 +275,89 @@
                 s += "</td>" + "</tr>";
                 document.getElementById('districtTable').innerHTML += s;
             }
+
+            new Chart(document.getElementById("chartContainer1"), {
+                type: 'bar',
+                data: {
+                    labels: dist,
+                    datasets: [{
+                        label: "Confirmed",
+                        backgroundColor: "#DC3545",
+                        data: conf
+                    }]
+                },
+                options: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Confirmed cases in districts of ' + state
+                    }
+                }
+            });
+
+            new Chart(document.getElementById("chartContainer2"), {
+                type: 'bar',
+                data: {
+                    labels: dist,
+                    datasets: [{
+                        label: "Active",
+                        backgroundColor: "#007BFF",
+                        data: act
+                    }]
+                },
+                options: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Active cases in districts of ' + state
+                    }
+                }
+            });
+            new Chart(document.getElementById("chartContainer3"), {
+                type: 'bar',
+                data: {
+                    labels: dist,
+                    datasets: [{
+                        label: "Recovered",
+                        backgroundColor: "#28A745",
+                        data: rec
+                    }]
+                },
+                options: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Recovered cases in districts of ' + state
+                    }
+                }
+            });
+            new Chart(document.getElementById("chartContainer4"), {
+                type: 'bar',
+                data: {
+                    labels: dist,
+                    datasets: [{
+                        label: "Deceased",
+                        backgroundColor: "#6C757D",
+                        data: dec
+                    }]
+                },
+                options: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Deceased cases in districts of ' + state
+                    }
+                }
+            });
+
         }
 
         var chartFunc = function() {
