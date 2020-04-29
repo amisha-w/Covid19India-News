@@ -47,7 +47,6 @@
         width: 100%;
         /* left: 0;
          */
-        margin-top: 80px;
     }
     
     .options {
@@ -58,12 +57,18 @@
         padding: 10px;
         background-color: white;
     }
-    
-    =.card {
+    /*     
+    .card {
         margin: auto;
         width: 800px;
         border: 1px solid #CCCCCC;
         margin-top: 20px;
+    } */
+    
+    @media only screen and (max-width: 700px) {
+        .card {
+            display: inline;
+        }
     }
     
     .article {
@@ -117,38 +122,40 @@
 <body>
     {% include 'newsapp/nav.html' %}
 
-
-    <div class="container">
-
-
+    <div style="margin-top: 80px; text-align:center; width:100%;">
         <div class="card text-white bg-danger mb-3">
-            <div class="card-header">Confirmed</div>
+            <div class="card-header">Total Confirmed</div>
             <div class="card-body">
                 <h5 class="card-title" id="conf">
                 </h5>
             </div>
         </div>
         <div class="card text-white bg-primary mb-3">
-            <div class="card-header">Active</div>
+            <div class="card-header">Total Active</div>
             <div class="card-body">
                 <h5 class="card-title" id="act">
                 </h5>
             </div>
         </div>
         <div class="card text-white bg-success mb-3">
-            <div class="card-header">Recovered</div>
+            <div class="card-header">Total Recovered</div>
             <div class="card-body">
                 <h5 class="card-title" id="rec">
                 </h5>
             </div>
         </div>
         <div class="card text-white bg-secondary mb-3">
-            <div class="card-header">Deceased</div>
+            <div class="card-header">Total Deceased</div>
             <div class="card-body">
                 <h5 class="card-title" id="dec">
                 </h5>
             </div>
         </div>
+    </div>
+
+    <div class="container">
+
+
 
 
         <div id="myChart" class="chart--container" style="z-index: 99; height: 100%;  margin-bottom: 5px;">
