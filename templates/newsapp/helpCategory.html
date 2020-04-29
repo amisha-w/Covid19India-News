@@ -123,7 +123,7 @@
     <div class="categories" style="text-align: center;">
         <h1>{{ category }}</h1>
         <br>
-        <h3>Filter by: </h3><select id="selectState" style="font-size: 1.2em; text-align: center;" onchange="stateFunc()">
+        <h3>Filter by: </h3><select class="form-control" id="selectState" style=" background-color: #007BFF;  color: white; font-size: 1.2em;  width: 30%; margin: auto;" onchange="stateFunc()">
             {% for ii,s in states %}
             <option value="{{ ii }}">{{ s }}</option>
             {% endfor %}

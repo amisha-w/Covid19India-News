@@ -160,7 +160,7 @@
         <div class="spreadgraph"><br>
             <h2> &nbsp;</h2>
             <h2> Spread Trends</h2>
-            <br> <select id="state_select" style="font-size: 1.5em; text-align: center;" onchange="chartFunc()">
+            <br> <select id="state_select" class="form-control" style="background-color: #007BFF; color: white; font-size: 1.5em; width: 30%; margin: auto;" onchange="chartFunc()">
                         {% for key,value in code_map.items %}
                           <option value="{{ key }}">{{ value }}</option>
                             {% endfor %}
@@ -169,14 +169,26 @@
             <br>
             <br>
             <div height="500px">
-                <canvas id="line-chart" style="height: 500px;" width="800px" height="450px"></canvas>
+                <canvas id="line-chart" class="chartjs-render-monitor" style="height: 500px;" width="800px" height="450px"></canvas>
             </div>
         </div>
 
-        <canvas id="chartContainer1" style=" height: 300px; display: inline-block;"></canvas>
-        <canvas id="chartContainer2" style=" height: 300px; display: inline-block;"></canvas><br>
-        <canvas id="chartContainer3" style="height: 300px; display: inline-block;"></canvas>
-        <canvas id="chartContainer4" style="height: 300px; display: inline-block;"></canvas>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <canvas id="chartContainer1" class="chartjs-render-monitor" style=" height: 300px; display: inline-block;"></canvas>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <canvas id="chartContainer2" class="chartjs-render-monitor" style=" height: 300px; display: inline-block;"></canvas>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <canvas id="chartContainer3" class="chartjs-render-monitor" style=" height: 300px; display: inline-block;"></canvas>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <canvas id="chartContainer4" class="chartjs-render-monitor" style=" height: 300px; display: inline-block;"></canvas>
+            </div>
+        </div>
         <div class="table-responsive">
             <table id="districtTable" class="table table-hover table-dark " style="width: 100%;">
 
