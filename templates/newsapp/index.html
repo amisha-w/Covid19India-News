@@ -156,15 +156,7 @@
 </style>
 
 <body>
-    <nav class="navbar navbar-expand navbar-light" style="background-color: #fff;">
-        <!-- Navbar content -->
-        <a class="navbar-brand">NewsApi</a>
-        <form class="form-inline" method="post" action="/search/">
-            {% csrf_token %}
-            <input class="form-control mr-sm-2" name="word" style="background-color: #F2F2F2;" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
-        </form>
-    </nav>
+    {% include 'newsapp\nav.html' %}
     <div class="options">
         <a href="#" class="opt"><svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 			viewBox="0 0 512.001 512.001" style="enable-background:new 0 0 512.001 512.001;" xml:space="preserve">

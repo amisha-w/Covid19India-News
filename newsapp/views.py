@@ -123,7 +123,7 @@ def help(request, c_id=None, s_id=None):
 			s_id=0
 		return render(request, 'newsapp/helpCategory.html', context={"list":lis, "category":category[int(c_id)],"states":s, "c_id":c_id,"s_id":s_id})
 
-def trend(request, tr):
+def trend(request, tr="COVID"):
 	site = 'https://news.google.com'
 
 	source = requests.get('https://news.google.com/topics/CAAqBwgKMMqAmAsw9KmvAw').text
@@ -195,7 +195,6 @@ def top(request,timey=1,coun='in',sour=None):
 	x=""
 	if(timey=="1"):
 		x=_.strftime("%Y-%m-%d")
-		print("-------------------is1")
 	elif(timey=="2"):
 		x1= _ - datetime.timedelta(days=7)
 		x=x1.strftime("%Y-%m-%d")
@@ -207,6 +206,8 @@ def top(request,timey=1,coun='in',sour=None):
 	elif(timey=="4"):
 		x1= _ - datetime.timedelta(days=365)
 		x=x1.strftime("%Y-%m-%d")
+	else:
+		x=_.strftime("%Y-%m-%d")
 
 	# print('mn\n\n\n-------------------------------------',sources)
 	print("--------------------------",coun,sour,timey)

@@ -19,7 +19,7 @@
 <style type="text/css">
     body,
     html {
-        background-color: #fff;
+        background-color: #f1f1f1;
         margin: 0px;
         padding: 0px;
     }
@@ -101,6 +101,7 @@
     
     .spreadgraph {
         text-align: center;
+        /* width: 100%; */
     }
     
     canvas {
@@ -112,28 +113,59 @@
         font-size: 0.8em;
         font-style: bold;
     }
+    
+    h5 {
+        text-align: center;
+    }
 </style>
 
 <body>
-    <nav class="navbar navbar-expand navbar-light" style="background-color: #fff;">
-        <!-- Navbar content -->
-        <a class="navbar-brand">NewsApi</a>
-        <form class="form-inline" method="post" action="/search/">
-            {% csrf_token %}
-            <input class="form-control mr-sm-2" name="word" style="background-color: #F2F2F2;" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
-        </form>
-    </nav>
+    {% include 'newsapp\nav.html' %}
+
 
     <div class="container">
+        <div style="position: relative;">
+            <div style="display: inline-block; float: left; width: 40%; ">
+                <div class="card text-white bg-danger mb-3" style="max-width: 10rem; max-height: 8rem;">
+                    <div class="card-header">Confirmed</div>
+                    <div class="card-body">
+                        <h5 class="card-title" id="conf">
+                        </h5>
+                    </div>
+                </div>
+                <div class="card text-white bg-primary mb-3" style="max-width: 10rem;  max-height: 8rem;">
+                    <div class="card-header">Active</div>
+                    <div class="card-body">
+                        <h5 class="card-title" id="act">
+                        </h5>
+                    </div>
+                </div>
+                <div class="card text-white bg-success mb-3" style="max-width: 10rem;  max-height: 8rem;">
+                    <div class="card-header">Recovered</div>
+                    <div class="card-body">
+                        <h5 class="card-title" id="rec">
+                        </h5>
+                    </div>
+                </div>
+                <div class="card text-white bg-secondary mb-3" style="max-width: 10rem;  max-height: 8rem;">
+                    <div class="card-header">Deceased</div>
+                    <div class="card-body">
+                        <h5 class="card-title" id="dec">
+                        </h5>
+                    </div>
+                </div>
+            </div>
 
-        <div id="myChart" class="chart--container" style="margin-bottom: 30px;"></div>
-        <div class="spreadgraph">
+            <div id="myChart" class="chart--container" style="display: inline-block; height: 100%; right:0; float: right; margin-bottom: 30px; width: 60%;">
+            </div>
+        </div>
+        <div class="spreadgraph"><br>
+            <h2> &nbsp;</h2>
             <h2> Spread Trends</h2>
             <br> <select id="state_select" style="font-size: 1.5em; text-align: center;" onchange="chartFunc()">
-                {% for key,value in code_map.items %}
-                <option value="{{ key }}">{{ value }}</option>
-                {% endfor %}
+                        {% for key,value in code_map.items %}
+                          <option value="{{ key }}">{{ value }}</option>
+                            {% endfor %}
 
                 </select>
             <br>
@@ -142,13 +174,13 @@
                 <canvas id="line-chart" width="800px" height="450px"></canvas>
             </div>
         </div>
-        <table id="districtTable" class="table table-hover">
+        <table id="districtTable" class="table table-hover table-dark" style="width: 50%; margin:auto;">
 
             <tr>
                 <th scope="col">District</th>
                 <th scope="col">Confirmed</th>
                 <th scope="col">Active</th>
-                <th scope="col">Diseased</th>
+                <th scope="col">Deceased</th>
                 <th scope="col">Recovered</th>
             </tr>
 
@@ -165,6 +197,26 @@
         $(document).ready(function() {
             chartFunc();
         });
+        var conf = 0,
+            dec = 0,
+            act = 0,
+            rec = 0;
+        for (var i in table) {
+            // alert(i)
+            for (j in table[i]["districtData"]) {
+                // alert(j);
+                act += table[i]["districtData"][j]["active"];
+                conf += table[i]["districtData"][j]["confirmed"];
+                dec += table[i]["districtData"][j]["deceased"];
+                rec += table[i]["districtData"][j]["recovered"];
+            }
+
+        }
+        // alert(conf + " " + act + " " + rec + " " + dec);
+        document.getElementById('conf').innerHTML = conf;
+        document.getElementById('act').innerHTML = act;
+        document.getElementById('rec').innerHTML = rec;
+        document.getElementById('dec').innerHTML = dec;
 
         var tableFunc = function() {
             var state = $("#state_select option:selected").text();
@@ -173,7 +225,7 @@
                 "<th scope='col'>District</th>" +
                 "<th scope='col'>Confirmed</th>" +
                 "<th scope='col'>Active</th>" +
-                "<th scope='col'>Diseased</th>" +
+                "<th scope='col'>Deceased</th>" +
                 "<th scope='col'>Recovered</th>" +
                 "</tr>";
             for (var d in table[state]['districtData']) {
@@ -888,5 +940,7 @@
         });
     </script>
 </body>
+
+</html>
 
 </html>
