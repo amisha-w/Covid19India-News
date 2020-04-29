@@ -59,17 +59,7 @@
         background-color: white;
     }
     
-    .left {
-        float: left;
-    }
-    
-    .right {
-        float: right;
-        right: 0;
-        padding: 0 !important;
-    }
-    
-    .card {
+    =.card {
         margin: auto;
         width: 800px;
         border: 1px solid #CCCCCC;
@@ -118,6 +108,10 @@
     h5 {
         text-align: center;
     }
+    
+    .card {
+        display: inline-block;
+    }
 </style>
 
 <body>
@@ -125,41 +119,41 @@
 
 
     <div class="container">
-        <div style="position: relative;">
-            <div style="display: inline-block; float: left; width: 40%; ">
-                <div class="card text-white bg-danger mb-3" style="max-width: 10rem; max-height: 8rem;">
-                    <div class="card-header">Confirmed</div>
-                    <div class="card-body">
-                        <h5 class="card-title" id="conf">
-                        </h5>
-                    </div>
-                </div>
-                <div class="card text-white bg-primary mb-3" style="max-width: 10rem;  max-height: 8rem;">
-                    <div class="card-header">Active</div>
-                    <div class="card-body">
-                        <h5 class="card-title" id="act">
-                        </h5>
-                    </div>
-                </div>
-                <div class="card text-white bg-success mb-3" style="max-width: 10rem;  max-height: 8rem;">
-                    <div class="card-header">Recovered</div>
-                    <div class="card-body">
-                        <h5 class="card-title" id="rec">
-                        </h5>
-                    </div>
-                </div>
-                <div class="card text-white bg-secondary mb-3" style="max-width: 10rem;  max-height: 8rem;">
-                    <div class="card-header">Deceased</div>
-                    <div class="card-body">
-                        <h5 class="card-title" id="dec">
-                        </h5>
-                    </div>
-                </div>
-            </div>
 
-            <div id="myChart" class="chart--container" style="display: inline-block; height: 100%; right:0; float: right; margin-bottom: 30px; width: 60%;">
+
+        <div class="card text-white bg-danger mb-3">
+            <div class="card-header">Confirmed</div>
+            <div class="card-body">
+                <h5 class="card-title" id="conf">
+                </h5>
             </div>
         </div>
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-header">Active</div>
+            <div class="card-body">
+                <h5 class="card-title" id="act">
+                </h5>
+            </div>
+        </div>
+        <div class="card text-white bg-success mb-3">
+            <div class="card-header">Recovered</div>
+            <div class="card-body">
+                <h5 class="card-title" id="rec">
+                </h5>
+            </div>
+        </div>
+        <div class="card text-white bg-secondary mb-3">
+            <div class="card-header">Deceased</div>
+            <div class="card-body">
+                <h5 class="card-title" id="dec">
+                </h5>
+            </div>
+        </div>
+
+
+        <div id="myChart" class="chart--container" style="z-index: 99; height: 100%;  margin-bottom: 5px;">
+        </div>
+
         <div class="spreadgraph"><br>
             <h2> &nbsp;</h2>
             <h2> Spread Trends</h2>

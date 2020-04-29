@@ -11,30 +11,39 @@
         margin-right: 5px;
     }
 </style>
-<nav class="navbar navbar-expand navbar-dark bg-dark justify-content-between" style="color: #fff;">
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between">
     <a href="/index/" class=" navbar-brand "><img style="width: 35px; height: 35px; " src="{% static 'coronavirus.svg' %} "> News</a>
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0 ">
-        <li class="nav-item ">
-            <a class="nav-link " href="/index/ "><img class="icon " src="{% static 'home.svg' %} "> Home</a>
-        </li>
-        <li class="nav-item ">
-            <a class="nav-link " href="/top/ "><img class="icon " src="{% static 'top.svg' %} "> Top News</a>
-        </li>
-        <li class="nav-item ">
-            <a class="nav-link " href="/trend/ "><img class="icon " src="{% static 'world-map.svg' %} "> COVID Local</a>
-        </li>
-        <li class="nav-item ">
-            <a class="nav-link " href="/map/ "><img class="icon " src="{% static 'global.svg' %} "> COVID Map</a>
-        </li>
-        <li class="nav-item ">
-            <a class="nav-link " href="/help/ "><img class="icon " src="{% static 'help.svg' %} "> COVID Help</a>
-        </li>
-    </ul>
-    <form class="form-inline " method="post " action="/search/ ">
-        {% csrf_token %}
-        <input class="form-control mr-sm-2 " name="word " style="background-color: #F2F2F2; width: 500px; " type="search " placeholder="Search " aria-label="Search ">
-        <button class="btn btn-outline-primary my-2 my-sm-0 " type="submit ">Search</button>
-    </form>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0 ">
+            <li class="nav-item ">
+                <a class="nav-link " href="/index/ "><img class="icon " src="{% static 'home.svg' %} "> Home</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link " href="/top/ "><img class="icon " src="{% static 'top.svg' %} "> Top News</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link " href="/trend/ "><img class="icon " src="{% static 'world-map.svg' %} "> COVID Local</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link " href="/map/ "><img class="icon " src="{% static 'global.svg' %} "> COVID Map</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link " href="/help/ "><img class="icon " src="{% static 'help.svg' %} "> COVID Help</a>
+            </li>
+        </ul>
+        <form class="form-inline " method="post " action="/search/ ">
+            {% csrf_token %}
+            <input class="form-control mr-sm-2 " name="word " style="background-color: #F2F2F2; width: 500px; " type="search " placeholder="Search " aria-label="Search ">
+            <button class="btn btn-outline-primary my-2 my-sm-0 " type="submit ">Search</button>
+        </form>
+    </div>
 </nav>
 
 <script type="text/javascript ">

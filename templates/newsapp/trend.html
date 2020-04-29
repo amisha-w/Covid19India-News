@@ -63,6 +63,15 @@
         margin-top: 20px;
     }
     
+    @media only screen and (max-width: 700px) {
+        .card {
+            margin: auto;
+            width: 500px;
+            border: 1px solid #CCCCCC;
+            margin-top: 20px;
+        }
+    }
+    
     .article {
         margin-bottom: 5px;
         /* margin: 20px !important; */
@@ -102,7 +111,7 @@
                 <hr> {% for head, link, pic, src1, desc, time in articles%}
                 <div class="article">
                     {% if pic != None %}
-                    <div class="left" style="width: 85%;">
+                    <div class="left" style="max-width: 85%;">
                         {% else %}
                         <div class="left">
                             {% endif %}
