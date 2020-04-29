@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 from dotenv import load_dotenv
+import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,7 +27,7 @@ SECRET_KEY = '$(d%gxdj$a%yarazr-wz^155_6_#y2tbad5xjsv@orn7*%ed42'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['covid19india-news.herokuapp.com']
 
 
 # Application definition
@@ -125,3 +126,4 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR,'jan/static')
 ]
 
+django_heroku.settings(locals())
