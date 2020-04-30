@@ -45,6 +45,7 @@ def index(request,keyw=None, coun='in'):
 def search(request):
 	if(request.method=="POST"):
 		keyword = request.POST['word']
+		print("searched word: ",keyword)
 		return redirect(index, keyw=keyword, coun='in')
 	else:
 		print("no post")
