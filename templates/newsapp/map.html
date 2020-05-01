@@ -221,7 +221,7 @@
         }
         var state_codes = JSON.parse(`{{ codes|safe }}`);
         var table = JSON.parse(httpGet('https://api.covid19india.org/state_district_wise.json'));
-        alert(table);
+        // alert(table);
         var confirmed = JSON.parse(`{{ confirmed|safe }}`);
         var recovered = JSON.parse(`{{ recovered|safe }}`);
         var deceased = JSON.parse(`{{ deceased|safe }}`);
