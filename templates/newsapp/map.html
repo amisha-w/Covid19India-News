@@ -213,8 +213,15 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
     <script>
-        var table = JSON.parse(`{{ table|safe }}`);
+        function httpGet(theUrl) {
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open("GET", theUrl, false); // false for synchronous request
+            xmlHttp.send(null);
+            return xmlHttp.responseText;
+        }
         var state_codes = JSON.parse(`{{ codes|safe }}`);
+        var table = JSON.parse(httpGet('https://api.covid19india.org/state_district_wise.json'));
+        alert(table);
         var confirmed = JSON.parse(`{{ confirmed|safe }}`);
         var recovered = JSON.parse(`{{ recovered|safe }}`);
         var deceased = JSON.parse(`{{ deceased|safe }}`);
@@ -225,8 +232,12 @@
             dec = 0,
             act = 0,
             rec = 0;
+        // alert(typeof table);
+        // table = JSON.parse(table);
+
         for (var i in table) {
             // alert(i)
+
             for (j in table[i]["districtData"]) {
                 // alert(j);
                 act += table[i]["districtData"][j]["active"];

@@ -93,6 +93,7 @@ def map(request):
 	del state_name_mapping['tt']
 	x_ = requests.get('https://api.covid19india.org/state_district_wise.json').json()
 	x_ = json.dumps(x_)
+	# print(type(x_))
 	
 	return render(request, 'newsapp/map.html', context={"statewise":json.dumps(a),"confirmed":json.dumps(confirmed),"recovered":json.dumps(recovered),"deceased":json.dumps(deceased),"codes":json.dumps(state_name_mapping), "code_map":state_name_mapping, "table":x_})
 
